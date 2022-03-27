@@ -151,6 +151,18 @@ class SetupConfig(BaseConfig):
             return default
         return result
 
+    def metadata_version(self):
+        default = None
+        if self.config is None:
+            return default
+        try:
+            result = self._get_text(
+                "metadata", "version", default=default
+            )
+        except (NoSectionError, NoOptionError, ValueError):
+            return default
+        return result
+
 
 class PypiConfig(BaseConfig):
     """Wrapper around the pypi config file"""

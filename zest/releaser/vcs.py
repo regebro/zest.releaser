@@ -125,6 +125,9 @@ class BaseVersionControl:
                 line = line.replace('"', "").replace("'", "")
                 return utils.strip_version(line)
 
+    def get_config_file_version(self):
+        return self.setup_cfg.metadata_version()
+
     def filefind(self, names):
         """Return first found file matching name (case-insensitive).
 
@@ -211,7 +214,8 @@ class BaseVersionControl:
         searched for a ``__version__`` attribute, use that one.
         """
         return (
-            self.get_python_file_version()
+            self.get_config_file_version()
+            or self.get_python_file_version()
             or self.get_setup_py_version()
             or self.get_version_txt_version()
         )

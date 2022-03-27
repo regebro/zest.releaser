@@ -217,6 +217,21 @@ have to change it back again:
     __version__ = "2.1"
     print('something.else')
 
+Since PEP517, you can now also have the version in setup.cfg. This is picked up
+automatically if you use setup.py, but it's also supported to not have a setup.py,
+so we should just read directly from the setup.cfg, if there is a version there.
+
+    >>> lines = [
+    ...     "[metadata]",
+    ...     "version = 2.2"]
+    >>> writeto('setup.cfg', '\n'.join(lines))
+    >>> checkout = vcs.BaseVersionControl()
+    >>> checkout.internal_filename = '.marker'
+    >>> checkout.get_config_file_version()
+    '2.2'
+    >>> checkout.version
+    '2.2'
+
 
 Version corner cases
 --------------------
